@@ -5,10 +5,10 @@
     <form action="" method="post">
         {% csrf_token %}
         {{form}}
-        <input type="submit" value="update">
+        <input type="submit" class="btn btn-success" value="Update">
+        <a href="{% url 'delete' todo.id %}">
+            <button type="button" class="btn btn-danger">Delete</button>
+        </a>
     </form>
-    <a href="{% url 'delete' todo.id %}">
-        <button>Delete</button>
-    </a>
 {% endblock content %}
     

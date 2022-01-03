@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Todo
 from .forms import TodoAddForm, TodoUpdateForm
 
@@ -8,7 +8,7 @@ def home(request):
 
 
 def todo_list(request):
-    todos = Todo.objects.all()
+    todos = Todo.objects.all()#Model de olusturdugumuz Todo tablosunu cagirip bir degiskene atiyoruz.
     form = TodoAddForm()
     if request.method == "POST":
         form = TodoAddForm(request.POST)
@@ -24,7 +24,7 @@ def todo_list(request):
 
 
 def todo_add(request):
-    form = TodoAddForm()
+    form = TodoAddForm() #Kullaniciya bos form gönderiyoruz.
     if request.method == "POST":
         form = TodoAddForm(request.POST)
         print(request.POST)
@@ -38,11 +38,12 @@ def todo_add(request):
 
 
 def todo_update(request, id):
-    todo = Todo.objects.get(id=id)
-    form = TodoUpdateForm(instance=todo)
+    # todo = Todo.objects.get(id=id)
+    todo = get_object_or_404(Todo, id=id)# Todo tablosundan objeyi cek gelmiyosa 404 ver.
+    form = TodoUpdateForm(instance=todo)# instance bir objedir, db den cagirdigim update islemi icin forma yerlestirilmesi gereken data.
     if request.method == "POST":
         print(request.POST)
-        form = TodoUpdateForm(request.POST, instance=todo)
+        form = TodoUpdateForm(request.POST, instance=todo)#update edilmeyenler instance daki veriler olsun, update dilenler request post ile gelen veriler olur.cd
         if form.is_valid():
             form.save()
             return redirect("list")
@@ -55,7 +56,8 @@ def todo_update(request, id):
 
     
 def todo_delete(request, id):
-    todo = Todo.objects.get(id=id)
+    # todo = Todo.objects.get(id=id)
+    todo = get_object_or_404(Todo, id=id)
     if request.method == "POST":
         todo.delete()
         return redirect("list")
@@ -64,9 +66,3 @@ def todo_delete(request, id):
         "todo" : todo,
     }
     return render(request, "todo/todo_delete.html", context)
-
-
-       
-    
-
-    

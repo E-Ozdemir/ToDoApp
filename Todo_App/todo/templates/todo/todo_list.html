@@ -10,18 +10,17 @@
 
    <div>
        <ul>
-           
            {% for todo in todos  %}
-
-            
+           
+             <!-- complated true mantigini modeldeki yapiyla sagliyoruz -->
             {% if todo.completed %}
+            <!-- Üstü cizili olmasi icin del i kullaniyorz. -->
             <a href="{% url 'update' todo.id %}"><li><del>{{todo}}</del></li></a> 
             {% else %}
             <a href="{% url 'update' todo.id %}"><li>{{todo}}</li></a> 
             {% endif %}
                               
-           {% endfor %}
-               
+           {% endfor %} 
        </ul>
    </div>
 {% endblock content %}
